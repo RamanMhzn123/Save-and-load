@@ -1,13 +1,11 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
-[Serializable]
-public class GameData 
+[System.Serializable]
+public class GameData
 {
     public string playerName;
     public int playerExp;
-    public Vector3 playerPos;
-    public Vector3 playerScale;
+    public Vector3 playerPos, playerScale;
     public List<ExpData> expDatas = new List<ExpData>();
 }
