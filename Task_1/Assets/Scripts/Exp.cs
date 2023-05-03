@@ -20,9 +20,16 @@ public class Exp : MonoBehaviour
         if (other.TryGetComponent<Player>(out var player))//if collider have Player script
         {
             player.AddExp();
-            gameObject.SetActive(false);
-            ExpData.WasPickedUp = true; //WasPickedUp 
+
+            Collect();
         }
+    }
+
+    public void Collect()
+    {
+        Debug.Log("Picked exp");
+        gameObject.SetActive(false);
+        ExpData.WasPickedUp = true;
     }
 
     public void Load(ExpData expData)

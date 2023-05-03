@@ -17,8 +17,8 @@ public class ExpUI : MonoBehaviour
 
     void Update()
     {
-        expText.text = player.exp +" EXP";
-        playerName.text = player.playerName;
+        //expText.text = player.exp +" EXP";
+        //playerName.text = player.playerName;
     }
 
     public void BackButton() 

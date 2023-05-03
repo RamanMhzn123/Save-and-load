@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 
     // The player's experience points (can be read and written to)
     public int exp { get; set; }
+    public int coin;
 
     Rigidbody rb;
     Animator animator;
@@ -53,5 +54,10 @@ public class Player : MonoBehaviour
     public void AddExp()
     {
         exp++;
+    }
+
+    public void AddCoin()
+    {
+        coin++;
     }
 }
