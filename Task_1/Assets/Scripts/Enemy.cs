@@ -3,12 +3,12 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour
 {
-    public float speed = 1f;
+    public float speed = 1f; 
     public float rotationSpeed = 10f;
     public float minDistanceToWaypoint = 1.5f;
     public Transform[] waypoints;
 
-    bool isStopped = false;
+    public bool isMoving;
     Vector3 direction;
     IEnumerator starter;
 
@@ -17,29 +17,29 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         currentWaypointIndex = Random.Range(0, waypoints.Length);
+        starter = ResumeEnemyMovement();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space)) //Space
         {
-            if (starter != null) //if there is a coroutine running 
-                StopCoroutine(starter); //stop
+            isMoving = !isMoving;
 
-            starter = ResumeEnemyMovement();
-            StartCoroutine(starter);
+            if(isMoving)
+                StartCoroutine(starter);
+            else
+                StopCoroutine(starter);
         }
+    }
 
-        if (!isStopped)
+    private IEnumerator ResumeEnemyMovement()
+    {
+        while (true)
         {
-            direction = waypoints[currentWaypointIndex].position - transform.position;
-
-            if (direction.magnitude <= minDistanceToWaypoint)
-            {
-                    currentWaypointIndex = Random.Range(0, waypoints.Length);
-            }
-
             MoveEnemy();
+            ChangeWaypoint();
+            yield return null; 
         }
     }
 
@@ -52,12 +52,17 @@ public class Enemy : MonoBehaviour
         // Move the enemy in the new direction
         transform.position += transform.forward * speed * Time.deltaTime;
 
+        //transform.position = Vector3.MoveTowards(transform.position, waypoints[currentWaypointIndex].position, speed * Time.deltaTime);
         //Debug.DrawRay(transform.position, newDirection);
     }
 
-    private IEnumerator ResumeEnemyMovement()
+    void ChangeWaypoint()
     {
-        yield return new WaitForSeconds(0.5f);
-        isStopped = !isStopped;
+        direction = waypoints[currentWaypointIndex].position - transform.position; //direction
+
+        if (direction.magnitude <= minDistanceToWaypoint) //if close to waypoint
+        {
+            currentWaypointIndex = Random.Range(0, waypoints.Length); //change to random waypoint
+        }
     }
 }
